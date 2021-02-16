@@ -41,15 +41,16 @@ class WelcomeComponent extends Component {
         //     .executeHelloWorldService()
         //     .then(response => this.handleSuccessfulResponse(response))
 
-        // HelloWorldService
-        // .executeHelloWorldPathVariableService(this.props.match.params.name)
-        // .then(response => this.handleSuccessfulResponse(response))
-        // .catch(error => this.handleError(error))
-
         HelloWorldService
-        .executeHelloWorldErrorService()
+        .executeHelloWorldPathVariableService(this.props.match.params.name)
         .then(response => this.handleSuccessfulResponse(response))
         .catch(error => this.handleError(error))
+
+        
+        // HelloWorldService
+        // .executeHelloWorldErrorService()
+        // .then(response => this.handleSuccessfulResponse(response))
+        // .catch(error => this.handleError(error))
 
     }
 
@@ -61,7 +62,14 @@ class WelcomeComponent extends Component {
         // console.log("error call")
         // console.log(error.response)
         // console.log(error.response.data.message)
-        this.setState({welcomeMessage : error.response.data})
+        let errorMessage = ' '
+        if (error.message) {
+            errorMessage += error.message
+        }
+        if (error.response && error.response.data) {
+            errorMessage += error.response.data
+        }
+        this.setState({welcomeMessage : errorMessage})
         //this.setState({welcomeMessage : response.data})
     }
 }
